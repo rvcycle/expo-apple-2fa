@@ -67,9 +67,12 @@ api.listen(9090, async () => {
             ...process.env,
             EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password')
         },
-        shell: true
+        shell: 'zsh',
     });
 
+    console.log(`pid: ${expoCli.pid}`);
+
+    // Basic piping experiment
     expoCli.stdout.pipe(process.stdout, { end: false });
     expoCli.stderr.pipe(process.stdout, { end: false });
 
