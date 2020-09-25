@@ -18,6 +18,7 @@ api.use(bodyParser.json());
 
 // Handle our routes...
 api.get('/', (req, res) => {
+    // TODO: make a web interface.
     res.send('Hello world!');
 });
 

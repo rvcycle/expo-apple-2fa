@@ -1,0 +1,12 @@
+name: 'Expo upload:ios with 2FA support'
+
+description: 'Runs upload:ios on an Expo process, allowing for manual 2FA entry via ngrok tunnel'
+
+inputs:
+    arguments:
+      description: "Any additional arguments you'd like to provide to expo ios:publish (TBD)"
+      required: false
+
+runs:
+  using: 'node12'
+  main: 'index.js'
