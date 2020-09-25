@@ -1,0 +1,13 @@
+{
+  "name": "expo-apple-2fa",
+  "version": "1.0.0",
+  "description": "Publish to the App Store with 2FA enabled in a CI environment",
+  "main": "index.js",
+  "author": "Jake Wood <jake@jakewood.org>",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "express": "^4.17.1",
+    "ngrok": "^3.3.0"
+  }
+}
