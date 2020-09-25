@@ -42,3 +42,6 @@ Once the action runs, it will provide you with a link to an ngrok tunnel where y
 # Alternatives?
 
 If there are, I'd love to hear about them and abandon this project.
+
+# License
+MIT
