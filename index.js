@@ -54,7 +54,11 @@ api.listen(9090, async () => {
     log('');
 
     // Start work on our Expo project.
-    expoCli = cp.spawn('expo', ['publish:ios'], { env: { EXPO_APPLE_PASSWORD: core.getInput('expo-apple-password') }});
+    expoCli = cp.spawn('expo', ['publish:ios', core.getInput('arguments')], {
+        env: {
+            EXPO_APPLE_PASSWORD: core.getInput('expo-apple-password')
+        }
+    });
 
     expoCli.stdout.on('data', function(data) {
         out(chalk.greenBright('>>> ') +  data.toString());
