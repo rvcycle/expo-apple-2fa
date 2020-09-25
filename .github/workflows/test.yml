@@ -13,5 +13,3 @@ jobs:
           node-version: 12.x
 
       - run: node index.js
-        env:
-          FORCE_COLOR: 1
