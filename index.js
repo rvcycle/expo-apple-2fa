@@ -9,10 +9,11 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cp = require('child_process');
 const core = require('@actions/core');
+// const { Stream } = require('stream');
 
 let expoCli = undefined;
 let expoOut = '';
-let expoStream = undefined;
+// let expoStream = new Stream();
 
 function out(buffer) {
     process.stdout.write(buffer);
@@ -37,7 +38,7 @@ api.post('/', (req, res) => {
         const { code } = req.body;
         if (code) {
             res.status(204).send();
-            expoCli.stdout.write(code + '\n');
+            expoCli.stdin.write(code + '\n');
         }
         else {
             res.status(400).send({'error': 'No code provided.'});
@@ -62,7 +63,7 @@ api.listen(9090, async () => {
     const expoArguments = core.getInput('expo_arguments');
     console.log(chalk.blue(`===> Running: expo upload:ios ${expoArguments}`));
 
-    expoCli = cp.spawn('expo', ['upload:ios', ...expoArguments.split(' ')], {
+    expoCli = cp.spawn('script', ['--return', '--quiet', '-c', `expo upload:ios ${expoArguments}`], {
         env: {
             ...process.env,
             EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password')
@@ -75,6 +76,7 @@ api.listen(9090, async () => {
     // Basic piping experiment
     expoCli.stdout.pipe(process.stdout, { end: false });
     expoCli.stderr.pipe(process.stdout, { end: false });
+    // expoCli.stdin.pipe(expoStream);
 
     expoCli.stdout.on('data', function(data) {
         // out(chalk.greenBright('>>> ') +  data.toString());
