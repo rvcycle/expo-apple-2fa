@@ -1,4 +1,5 @@
 console.log('Hello from expo-apple-2fa! This is a sanity check.');
+console.log('cwd is', process.cwd());
 
 // Some old school imports to support Node 12
 // in the Github Actions runner
@@ -58,6 +59,7 @@ api.listen(9090, async () => {
     // Start work on our Expo project.
     expoCli = cp.spawn('expo', ['publish:ios', core.getInput('arguments')], {
         env: {
+            ...process.env,
             EXPO_APPLE_PASSWORD: core.getInput('expo-apple-password')
         }
     });
