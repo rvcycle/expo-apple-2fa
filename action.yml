@@ -6,6 +6,9 @@ inputs:
     arguments:
       description: "Any additional arguments you'd like to provide to expo ios:publish (TBD)"
       required: false
+    expo-apple-password:
+      description: "Your Apple password"
+      required: true
 
 runs:
   using: 'node12'

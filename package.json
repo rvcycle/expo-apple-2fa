@@ -6,7 +6,7 @@
   "author": "Jake Wood <jake@jakewood.org>",
   "license": "MIT",
   "dependencies": {
-    "@actions/exec": "^1.0.4",
+    "@actions/core": "^1.2.6",
     "body-parser": "^1.19.0",
     "chalk": "^4.1.0",
     "express": "^4.17.1",

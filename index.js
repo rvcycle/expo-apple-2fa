@@ -5,11 +5,16 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cp = require('child_process');
+const core = require('@actions/core');
 
 let expoCli = undefined;
 
 function out(buffer) {
     process.stdout.write(buffer);
+}
+
+function log(buffer) {
+    console.log(buffer);
 }
 
 // First, start our web server...
@@ -49,7 +54,7 @@ api.listen(9090, async () => {
     log('');
 
     // Start work on our Expo project.
-    expoCli = cp.spawn('expo', ['publish:ios']);
+    expoCli = cp.spawn('expo', ['publish:ios'], { env: { EXPO_APPLE_PASSWORD: core.getInput('expo-apple-password') }});
 
     expoCli.stdout.on('data', function(data) {
         out(chalk.greenBright('>>> ') +  data.toString());
