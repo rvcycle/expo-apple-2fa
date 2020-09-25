@@ -4,7 +4,7 @@ Wires serivces together to allow Expo to publish iOS builds, especially with App
 
 # Usage
 
-1. [Generate an app-specific password](https://support.apple.com/en-us/HT204397). Annoyingly, some pieces of Fastlane use this, but others use the standard Apple ID password.
+1. [Generate an app-specific password](https://support.apple.com/en-us/HT204397). Unfortunately, some pieces of Fastlane use this, but others use the standard Apple ID password.
 
 2. Use Github Secrets to store at least:
     * Your Apple password (`EXPO_APPLE_PASSWORD`)
@@ -32,7 +32,7 @@ Wires serivces together to allow Expo to publish iOS builds, especially with App
 
 Once the action runs, it will provide you with a link to an ngrok tunnel where you can enter your 2FA code once you receive it. You have two choices:
 
-1. Use the provided web interface (**WARNING:** coming soon)
+1. Use the provided web interface
 
 2. Send a `POST` request to the tunnel with a JSON body:
    ```
