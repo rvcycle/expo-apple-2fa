@@ -12,6 +12,7 @@ const core = require('@actions/core');
 
 let expoCli = undefined;
 let expoOut = '';
+let expoStream = undefined;
 
 function out(buffer) {
     process.stdout.write(buffer);
@@ -60,14 +61,8 @@ api.listen(9090, async () => {
     // Start work on our Expo project.
     const expoArguments = core.getInput('expo_arguments');
     console.log(chalk.blue(`===> Running: expo upload:ios ${expoArguments}`));
-    // expoCli = cp.spawn('expo', ['upload:ios', expoArguments], {
-    //     env: {
-    //         ...process.env,
-            
-    //     },
-    //     shell: true,
-    // });
-    expoCli = cp.spawn('sh', [], {
+
+    expoCli = cp.spawn('expo', ['upload:ios', ...expoArguments.split(' ')], {
         env: {
             ...process.env,
             EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password')
@@ -75,20 +70,22 @@ api.listen(9090, async () => {
         shell: true
     });
 
+    expoCli.stdout.pipe(process.stdout, { end: false });
+    expoCli.stderr.pipe(process.stdout, { end: false });
+
     expoCli.stdout.on('data', function(data) {
-        out(chalk.greenBright('>>> ') +  data.toString());
+        // out(chalk.greenBright('>>> ') +  data.toString());
         expoOut += data.toString();
     });
-
     expoCli.stderr.on('data', function(data) {
-        out(chalk.red('>>> ') + data.toString()); 
+        // out(chalk.red('>>> ') + data.toString()); 
         expoOut += data.toString();
     });
 
-    expoCli.on('exit', (code) => {
+    const onExit = (code) => {
         console.log('===> Expo-cli exited with code', code);
         process.exit(code);
-    });
-
-    expoCli.stdin.write(`expo upload:ios ${expoArguments}\n`);
+    }
+    expoCli.on('exit', onExit);
+    expoCli.on('close', onExit);
 });
