@@ -60,12 +60,19 @@ api.listen(9090, async () => {
     // Start work on our Expo project.
     const expoArguments = core.getInput('expo_arguments');
     console.log(chalk.blue(`===> Running: expo upload:ios ${expoArguments}`));
-    expoCli = cp.spawn('expo', ['upload:ios', expoArguments], {
+    // expoCli = cp.spawn('expo', ['upload:ios', expoArguments], {
+    //     env: {
+    //         ...process.env,
+            
+    //     },
+    //     shell: true,
+    // });
+    expoCli = cp.spawn('sh', [], {
         env: {
             ...process.env,
             EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password')
         },
-        shell: true,
+        shell: true
     });
 
     expoCli.stdout.on('data', function(data) {
@@ -82,4 +89,6 @@ api.listen(9090, async () => {
         console.log('===> Expo-cli exited with code', code);
         process.exit(code);
     });
+
+    expoCli.stdin.write(`expo upload:ios ${expoArguments}\n`);
 });
