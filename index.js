@@ -1,3 +1,5 @@
+console.log('Hello from expo-apple-2fa! This is a sanity check.');
+
 // Some old school imports to support Node 12
 // in the Github Actions runner
 const ngrok = require('ngrok');
