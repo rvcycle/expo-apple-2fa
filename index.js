@@ -57,7 +57,7 @@ api.listen(9090, async () => {
     log('');
 
     // Start work on our Expo project.
-    expoCli = cp.spawn('expo', ['publish:ios', core.getInput('arguments')], {
+    expoCli = cp.spawn('expo', ['upload:ios', core.getInput('arguments')], {
         env: {
             ...process.env,
             EXPO_APPLE_PASSWORD: core.getInput('expo-apple-password')
@@ -73,6 +73,7 @@ api.listen(9090, async () => {
     });
 
     expoCli.on('exit', (code) => {
+        console.log('*** Expo-cli exited with code', code);
         process.exit(code);
     });
 });
