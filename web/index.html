@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <script type="text/javascript">
+        function sendCode() {
+            var $code = document.getElementById('code');
+            fetch({
+                url: "/",
+                method: "post",
+                body: JSON.stringify({ code: $code.value }),
+            });
+        }
+        </script>
+    </head>
+    <body>
+        <form onSubmit="sendCode()" action="#">
+            Code: <input type="text" id="code">
+            <input type="submit" value="OK" />
+        </form>
+    </body>
+</html>
