@@ -1,6 +1,3 @@
-console.log('Hello from expo-apple-2fa! This is a sanity check.');
-console.log('cwd is', process.cwd());
-
 // Some old school imports to support Node 12
 // in the Github Actions runner
 const ngrok = require('ngrok');
@@ -9,15 +6,11 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cp = require('child_process');
 const core = require('@actions/core');
-// const { Stream } = require('stream');
+
+console.log(chalk.redBright('Hello from expo-apple-2fa!'));
 
 let expoCli = undefined;
 let expoOut = '';
-// let expoStream = new Stream();
-
-function out(buffer) {
-    process.stdout.write(buffer);
-}
 
 function log(buffer) {
     console.log(buffer);
@@ -55,18 +48,19 @@ api.post('/', (req, res) => {
 api.listen(9090, async () => {
     const url = await ngrok.connect(9090);
     
-    log(chalk.blue( '===> When you receive your two factor auth code, visit:'));
-    log(chalk.white(`     ${url}`));
+    log(chalk.greenBright( '===> When you receive your two factor auth code, visit:'));
+    log(chalk.whiteBright(`     ${url}`));
     log('');
 
     // Start work on our Expo project.
     const expoArguments = core.getInput('expo_arguments');
-    console.log(chalk.blue(`===> Running: expo upload:ios ${expoArguments}`));
+    console.log(chalk.blueBright(`===> Running: expo upload:ios ${expoArguments}`));
 
     expoCli = cp.spawn('script', ['-r', '-q', '/dev/null', `expo upload:ios ${expoArguments}`], {
         env: {
             ...process.env,
-            EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password')
+            EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password'),
+            SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: core.getInput('tfa_phone_number'),
         },
         shell: 'zsh',
     });
@@ -76,14 +70,11 @@ api.listen(9090, async () => {
     // Basic piping experiment
     expoCli.stdout.pipe(process.stdout, { end: false });
     expoCli.stderr.pipe(process.stdout, { end: false });
-    // expoCli.stdin.pipe(expoStream);
 
     expoCli.stdout.on('data', function(data) {
-        // out(chalk.greenBright('>>> ') +  data.toString());
         expoOut += data.toString();
     });
     expoCli.stderr.on('data', function(data) {
-        // out(chalk.red('>>> ') + data.toString()); 
         expoOut += data.toString();
     });
 
