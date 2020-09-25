@@ -11,6 +11,7 @@ console.log(chalk.redBright('Hello from expo-apple-2fa!'));
 
 let expoCli = undefined;
 let expoOut = '';
+const successMessage = 'Successfully uploaded the new binary to App Store Connect';
 
 function log(buffer) {
     console.log(buffer);
@@ -48,7 +49,7 @@ api.post('/', (req, res) => {
 api.listen(9090, async () => {
     const url = await ngrok.connect(9090);
     
-    log(chalk.greenBright( '===> When you receive your two factor auth code, visit:'));
+    log(chalk.greenBright('===> When you receive your two factor auth code, visit:'));
     log(chalk.whiteBright(`     ${url}`));
     log('');
 
@@ -59,8 +60,10 @@ api.listen(9090, async () => {
     expoCli = cp.spawn('script', ['-r', '-q', '/dev/null', `expo upload:ios ${expoArguments}`], {
         env: {
             ...process.env,
+            EXPO_APPLE_ID: core.getInput('expo_apple_id'),
             EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password'),
             SPACESHIP_2FA_SMS_DEFAULT_PHONE_NUMBER: core.getInput('tfa_phone_number'),
+            FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: core.getInput('app_specific_password'),
         },
         shell: 'zsh',
     });
@@ -71,16 +74,24 @@ api.listen(9090, async () => {
     expoCli.stdout.pipe(process.stdout, { end: false });
     expoCli.stderr.pipe(process.stdout, { end: false });
 
-    expoCli.stdout.on('data', function(data) {
-        expoOut += data.toString();
-    });
-    expoCli.stderr.on('data', function(data) {
-        expoOut += data.toString();
-    });
+    const onOutput = (data) => {
+        expoOut += data;
+    }
+    expoCli.stdout.on('data', onOutput);
+    expoCli.stderr.on('data', onOutput);
 
     const onExit = (code) => {
         console.log('===> Expo-cli exited with code', code);
-        process.exit(code);
+
+        // It seems like the expo-cli is kind of buggy, so as long as we see
+        // the success message from Fastlane anywhere in the output, we can
+        // successfully exit with a code of zero
+        if (expoOut.includes(successMessage)) {
+            process.exit(0);
+        }
+        else {
+            process.exit(code);
+        }
     }
     expoCli.on('exit', onExit);
     expoCli.on('close', onExit);

@@ -6,11 +6,17 @@ inputs:
     expo_arguments:
       description: "Any additional arguments you'd like to provide to expo upload:ios"
       required: false
+    expo_apple_id:
+      description: "Apple ID to use"
+      required: true
     expo_apple_password:
       description: "Your Apple password"
       required: true
     tfa_phone_number:
       description: "The phone number to text for 2FA"
+      required: true
+    app_specific_password:
+      description: "App-specific password for Transporter to use"
       required: true
 
 runs:
