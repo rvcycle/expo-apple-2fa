@@ -6,12 +6,8 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cp = require('child_process');
 const core = require('@actions/core');
-chalk.supportsColor = {
-    level: 1,
-    hasBasic: true,
-    has256: false,
-    has16m: false,
-};
+
+console.log(chalk.supportsColor);
 
 console.log(chalk.redBright('Hello from expo-apple-2fa!'));
 
