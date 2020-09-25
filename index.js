@@ -7,8 +7,6 @@ const chalk = require('chalk');
 const cp = require('child_process');
 const core = require('@actions/core');
 
-console.log(chalk.supportsColor);
-
 console.log(chalk.redBright('Hello from expo-apple-2fa!'));
 
 let expoCli = undefined;
