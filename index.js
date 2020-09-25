@@ -63,7 +63,7 @@ api.listen(9090, async () => {
     const expoArguments = core.getInput('expo_arguments');
     console.log(chalk.blue(`===> Running: expo upload:ios ${expoArguments}`));
 
-    expoCli = cp.spawn('script', ['--return', '--quiet', '-c', `expo upload:ios ${expoArguments}`], {
+    expoCli = cp.spawn('script', ['-r', '-q', '/dev/null', `expo upload:ios ${expoArguments}`], {
         env: {
             ...process.env,
             EXPO_APPLE_PASSWORD: core.getInput('expo_apple_password')
