@@ -11,6 +11,7 @@ const cp = require('child_process');
 const core = require('@actions/core');
 
 let expoCli = undefined;
+let expoOut = '';
 
 function out(buffer) {
     process.stdout.write(buffer);
@@ -27,7 +28,7 @@ api.use(bodyParser.json());
 // Handle our routes...
 api.get('/', (req, res) => {
     // TODO: make a web interface.
-    res.send('Hello world!');
+    res.send(`Hello world!\r\n<pre>${expoOut}</pre>`);
 });
 
 api.post('/', (req, res) => {
@@ -69,10 +70,12 @@ api.listen(9090, async () => {
 
     expoCli.stdout.on('data', function(data) {
         out(chalk.greenBright('>>> ') +  data.toString());
+        expoOut += data.toString();
     });
 
     expoCli.stderr.on('data', function(data) {
         out(chalk.red('>>> ') + data.toString()); 
+        expoOut += data.toString();
     });
 
     expoCli.on('exit', (code) => {

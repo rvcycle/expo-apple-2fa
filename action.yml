@@ -3,10 +3,10 @@ name: 'Expo upload:ios with 2FA support'
 description: 'Runs upload:ios on an Expo process, allowing for manual 2FA entry via ngrok tunnel'
 
 inputs:
-    expo-arguments:
+    expo_arguments:
       description: "Any additional arguments you'd like to provide to expo upload:ios"
       required: false
-    expo-apple-password:
+    expo_apple_password:
       description: "Your Apple password"
       required: true
 
