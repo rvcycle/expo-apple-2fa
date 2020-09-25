@@ -2,11 +2,19 @@
 // in the Github Actions runner
 const ngrok = require('ngrok');
 const express = require('express');
+const bodyParser = require('body-parser');
 const chalk = require('chalk');
-const log = console.log;
+const cp = require('child_process');
+
+let expoCli = undefined;
+
+function out(buffer) {
+    process.stdout.write(buffer);
+}
 
 // First, start our web server...
 const api = express();
+api.use(bodyParser.json());
 
 // Handle our routes...
 api.get('/', (req, res) => {
@@ -15,17 +23,17 @@ api.get('/', (req, res) => {
 
 api.post('/', (req, res) => {
     try {
-        const body = JSON.parse(req.body);
-        const { code } = body;
+        const { code } = req.body;
         if (code) {
             res.status(204).send();
-            process.exit(0);
+            expoCli.stdout.write(code + '\n');
         }
         else {
             res.status(400).send({'error': 'No code provided.'});
         }
     }
     catch (exc) {
+        console.error(exc);
         res.status(500).send(exc);
     }
 });
@@ -38,4 +46,19 @@ api.listen(9090, async () => {
     log(chalk.blue( '===> When you receive your two factor auth code, visit:'));
     log(chalk.white(`     ${url}`));
     log('');
+
+    // Start work on our Expo project.
+    expoCli = cp.spawn('expo', ['publish:ios']);
+
+    expoCli.stdout.on('data', function(data) {
+        out(chalk.greenBright('>>> ') +  data.toString());
+    });
+
+    expoCli.stderr.on('data', function(data) {
+        out(chalk.red('>>> ') + data.toString()); 
+    });
+
+    expoCli.on('exit', (code) => {
+        process.exit(code);
+    });
 });
