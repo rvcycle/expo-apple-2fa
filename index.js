@@ -34,14 +34,14 @@ api.post('/', (req, res) => {
         if (code) {
             // TODO: more security
             //
-            // For now, let's make sure code is just digits
-            if (/^\d+$/.test(code)) {
+            // For now, let's make sure code is just a 6 digit number
+            // if (code.length === 6 && /^\d+$/.test(code)) {
                 expoCli.stdin.write(code + '\n');
                 res.status(204).send();
-            }
-            else {
-                res.status(400).send({'error': 'Only accepts 6-digit codes.'});
-            }
+            // }
+            // else {
+            //     res.status(400).send({'error': 'Only accepts 6-digit codes.'});
+            // }
         }
         else {
             res.status(400).send({'error': 'No code provided.'});

@@ -14,7 +14,7 @@ inputs:
       required: true
     tfa_phone_number:
       description: "The phone number to text for 2FA"
-      required: true
+      required: false
     app_specific_password:
       description: "App-specific password for Transporter to use"
       required: true
