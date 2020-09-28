@@ -3,10 +3,12 @@
         <script type="text/javascript">
         function sendCode() {
             var $code = document.getElementById('code');
-            fetch({
-                url: "/",
+            fetch("/", {
                 method: "post",
                 body: JSON.stringify({ code: $code.value }),
+                headers: {
+                    "Content-type": "application/json",
+                },
             });
         }
         </script>
