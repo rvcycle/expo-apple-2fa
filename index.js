@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const chalk = require('chalk');
 const cp = require('child_process');
 const core = require('@actions/core');
+const path = require('path');
 
 console.log(chalk.redBright('Hello from expo-apple-2fa!'));
 
@@ -23,7 +24,8 @@ api.use(bodyParser.json());
 
 // Handle our routes...
 api.get('/', (req, res) => {
-    res.sendFile('web/index.html');
+    const index = path.join(__dirname, 'web/index.html');
+    res.sendFile(index);
 });
 
 api.post('/', (req, res) => {
