@@ -1,6 +1,8 @@
 # expo-apple-2fa
 
-Wires serivces together to allow Expo to publish iOS builds, especially with Apple two-factor authentication enabled
+![Test expo-apple-2fa](https://github.com/rvcycle/expo-apple-2fa-test/workflows/Test%20expo-apple-2fa/badge.svg)
+
+A Github Action which wires serivces together to allow Expo to publish iOS builds, especially with Apple two-factor authentication enabled
 
 ## Usage
 
