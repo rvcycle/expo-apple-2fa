@@ -19,6 +19,10 @@ inputs:
       description: "App-specific password for Transporter to use"
       required: true
 
+branding:
+  color: green
+  icon: smartphone
+
 runs:
   using: 'node12'
   main: 'index.js'

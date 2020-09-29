@@ -1,9 +1,0 @@
-name: Scratchpad
-
-on: [workflow_dispatch]
-
-jobs:
-  scratch:
-    runs-on: macos-latest
-    steps:
-      - run: which unbuffer
