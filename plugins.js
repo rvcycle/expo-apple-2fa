@@ -20,7 +20,7 @@ const cp = require('child_process');
  * 
  */
 
-export default function handlePlugins(url) {
+function handlePlugins(url) {
     // First, load the plugins, if any
     const exists = fs.existsSync('./2fa.config.json');
     if (!exists) {
@@ -34,3 +34,4 @@ export default function handlePlugins(url) {
     // Install the plug-ins...
     const { status } = cp.spawnSync('npm', ['install', ...pluginNames], { stdio: 'pipe' });
 }
+module.exports = handlePlugins;
