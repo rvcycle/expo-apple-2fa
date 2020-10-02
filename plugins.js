@@ -1,5 +1,6 @@
 const fs = require('fs');
 const cp = require('child_process');
+const path = require('path');
 
 /***********************************************
  * Plug-ins!!
@@ -22,12 +23,13 @@ const cp = require('child_process');
 
 function handlePlugins(url) {
     // First, load the plugins, if any
-    const exists = fs.existsSync('./2fa.config.json');
+    const configPath = path.join(process.cwd(), '2fa.config.json');
+    const exists = fs.existsSync(configPath);
     if (!exists) {
         return;
     }
 
-    const pluginConfig = require('./2fa.config.json');
+    const pluginConfig = require(configPath);
 
     const pluginNames = pluginConfig.map(pn => pn.name);
 
