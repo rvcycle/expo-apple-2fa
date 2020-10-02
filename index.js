@@ -63,7 +63,7 @@ api.listen(9090, async () => {
     log(chalk.whiteBright(`     ${url}`));
     log('');
 
-    handlePlugins(url);
+    await handlePlugins(url);
 /*
     TODO: put this in another file.
     // Start work on our Expo project.
