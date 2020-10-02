@@ -1,5 +1,5 @@
-import fs from 'fs';
-import cp from 'child_process';
+const fs = require('fs');
+const cp = require('child_process');
 
 /***********************************************
  * Plug-ins!!
