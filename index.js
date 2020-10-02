@@ -7,6 +7,7 @@ const chalk = require('chalk');
 const cp = require('child_process');
 const core = require('@actions/core');
 const path = require('path');
+const { default: handlePlugins } = require('./plugins');
 
 console.log(chalk.redBright('Hello from expo-apple-2fa!'));
 
@@ -61,6 +62,8 @@ api.listen(9090, async () => {
     log(chalk.greenBright('===> When you receive your two factor auth code, visit:'));
     log(chalk.whiteBright(`     ${url}`));
     log('');
+
+    handlePlugins(url);
 
     // Start work on our Expo project.
     const expoArguments = core.getInput('expo_arguments');
