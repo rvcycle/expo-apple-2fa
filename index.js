@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const cp = require('child_process');
 const core = require('@actions/core');
 const path = require('path');
-const { default: handlePlugins } = require('./plugins');
+const handlePlugins = require('./plugins');
 
 console.log(chalk.redBright('Hello from expo-apple-2fa!'));
 
@@ -64,7 +64,8 @@ api.listen(9090, async () => {
     log('');
 
     handlePlugins(url);
-
+/*
+    TODO: put this in another file.
     // Start work on our Expo project.
     const expoArguments = core.getInput('expo_arguments');
     console.log(chalk.blueBright(`===> Running: expo upload:ios ${expoArguments}`));
@@ -107,4 +108,5 @@ api.listen(9090, async () => {
     }
     expoCli.on('exit', onExit);
     expoCli.on('close', onExit);
+    */
 });
