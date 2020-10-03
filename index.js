@@ -63,7 +63,13 @@ api.listen(9090, async () => {
     log(chalk.whiteBright(`     ${url}`));
     log('');
 
-    await handlePlugins(url);
+    try {
+        await handlePlugins(url);
+    }
+    catch {
+        core.setFailed('Unable to install plug-ins');
+        process.exit(1);
+    }
 /*
     TODO: put this in another file.
     // Start work on our Expo project.
