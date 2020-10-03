@@ -71,8 +71,8 @@ api.listen(9090, async () => {
         core.setFailed('Unable to install plug-ins');
         process.exit(1);
     }
-/*
-    TODO: put this in another file.
+    log('');
+
     // Start work on our Expo project.
     const expoArguments = core.getInput('expo_arguments');
     console.log(chalk.blueBright(`===> Running: expo upload:ios ${expoArguments}`));
@@ -115,5 +115,4 @@ api.listen(9090, async () => {
     }
     expoCli.on('exit', onExit);
     expoCli.on('close', onExit);
-    */
 });
