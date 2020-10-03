@@ -66,7 +66,8 @@ api.listen(9090, async () => {
     try {
         await handlePlugins(url);
     }
-    catch {
+    catch (exc) {
+        console.error(exc);
         core.setFailed('Unable to install plug-ins');
         process.exit(1);
     }
