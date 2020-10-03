@@ -25,7 +25,7 @@ const chalk = require('chalk');
 async function installPlugins(pluginNames) {
     return new Promise((resolve, reject) => {
         // Install the plug-ins...
-        const npm = cp.spawn('npm', ['install', ...pluginNames], { stdio: 'pipe', cwd: __dirname });
+        const npm = cp.spawn('npm', ['install', ...pluginNames], { stdio: 'pipe', cwd: path.join(__dirname, '..') });
         npm.stdout.pipe(process.stdout, { end: false });
         npm.stderr.pipe(process.stdout, { end: false });
 
